@@ -38,16 +38,16 @@
         </tr>
         <tr>
             <td>
-                <img id="player1_bench1_img" src="pokemon/bulbasaur.png">
+                <img id="player1_bench1_img" src="bulbasaur.png">
             </td>
             <td rowspan="3">
-                <img id="player1_battle_img" src="pokemon/squirtle.png">
+                <img id="player1_battle_img" src="squirtle.png">
             </td>
             <td rowspan="3">
-                <img id="player2_battle_img" src="pokemon/pikachu.png">
+                <img id="player2_battle_img" src="pikachu.png">
             </td>
             <td>
-                <img id="player2_bench1_img" src="pokemon/chansey.png">
+                <img id="player2_bench1_img" src="chansey.png">
             </td>
         </tr>
         <tr>
@@ -56,10 +56,10 @@
         </tr>
         <tr>
             <td>
-                <img id="player1_bench2_img" src="pokemon/pidgey.png">
+                <img id="player1_bench2_img" src="pidgey.png">
             </td>
             <td>
-                <img id="player2_bench2_img" src="pokemon/marowak.png">
+                <img id="player2_bench2_img" src="marowak.png">
             </td>
         </tr>
         <tr>
@@ -242,7 +242,7 @@
                     if(player2_bench2.dataset.hp == 0){
                         //如果兩隻備戰寶可夢也都已氣絕，對手勝利
                         player2_battle.dataset.hp = 0
-                        player2_battle_img.src = "pokemon/pokeball.png";
+                        player2_battle_img.src = "pokeball.png";
                         refresh_pokemon_data();
                         win();
                     } else{
@@ -251,7 +251,7 @@
                         player2_battle_img.src = player2_bench2_img.src;
 
                         player2_bench2.dataset.hp = 0;
-                        player2_bench2_img.src = "pokemon/pokeball.png";
+                        player2_bench2_img.src = "pokeball.png";
                     }
                 } else{
                     player2_battle.dataset.hp = player2_bench1.dataset.hp;
@@ -259,13 +259,13 @@
                     player2_battle_img.src = player2_bench1_img.src;
 
                     player2_bench1.dataset.hp = 0;
-                    player2_bench1_img.src = "pokemon/pokeball.png";
+                    player2_bench1_img.src = "pokeball.png";
                 }
             } else{
                 if(player1_bench1.dataset.hp == 0){
                     if(player1_bench2.dataset.hp == 0){
                         player1_battle.dataset.hp = 0
-                        player1_battle_img.src = "pokemon/pokeball.png";
+                        player1_battle_img.src = "pokeball.png";
                         refresh_pokemon_data();
                         win();
                     } else{
@@ -274,7 +274,7 @@
                         player1_battle_img.src = player1_bench2_img.src;
 
                         player1_bench2.dataset.hp = 0;
-                        player1_bench2_img.src = "pokemon/pokeball.png";
+                        player1_bench2_img.src = "pokeball.png";
                     }
                 } else{
                     player1_battle.dataset.hp = player1_bench1.dataset.hp;
@@ -282,7 +282,7 @@
                     player1_battle_img.src = player1_bench1_img.src;
 
                     player1_bench1.dataset.hp = 0;
-                    player1_bench1_img.src = "pokemon/pokeball.png";
+                    player1_bench1_img.src = "pokeball.png";
                 }
             }
         };
