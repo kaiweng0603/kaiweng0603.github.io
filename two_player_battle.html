@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>two_player_battle</title>
+    <style>
+        body {
+            background: linear-gradient(to right, rgb(240, 73, 73), rgb(97, 97, 221));
+        }
+        table {
+            display: flex;
+            justify-content: center;
+        }
+        th, td {
+            border: 2px solid white;
+            font-size: large;
+            color: white;
+        }
+        img {
+            width: 300px;
+        }
+        button {
+            font-size: large;
+            font-weight: bold;
+            width: 300px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>玩家一備戰寶可夢</th>
+            <th>玩家一戰鬥寶可夢</th>
+            <th>玩家二戰鬥寶可夢</th>
+            <th>玩家二備戰寶可夢</th>
+        </tr>
+        <tr>
+            <td>
+                <img id="player1_bench1_img" src="pokemon/bulbasaur.png">
+            </td>
+            <td rowspan="3">
+                <img id="player1_battle_img" src="pokemon/squirtle.png">
+            </td>
+            <td rowspan="3">
+                <img id="player2_battle_img" src="pokemon/pikachu.png">
+            </td>
+            <td>
+                <img id="player2_bench1_img" src="pokemon/chansey.png">
+            </td>
+        </tr>
+        <tr>
+            <td id="player1_bench1" data-hp="70" data-atk="20">生命值:70<br>攻擊力:20</td>
+            <td id="player2_bench1" data-hp="100" data-atk="10">生命值:100<br>攻擊力:10</td>
+        </tr>
+        <tr>
+            <td>
+                <img id="player1_bench2_img" src="pokemon/pidgey.png">
+            </td>
+            <td>
+                <img id="player2_bench2_img" src="pokemon/marowak.png">
+            </td>
+        </tr>
+        <tr>
+            <td id="player1_bench2" data-hp="50" data-atk="20">生命值:50<br>攻擊力:20</td>
+            <td id="player1_battle" data-hp="60" data-atk="30">生命值:60<br>攻擊力:30</td>
+            <td id="player2_battle" data-hp="60" data-atk="40">生命值:60<br>攻擊力:40</td>
+            <td id="player2_bench2" data-hp="70" data-atk="50">生命值:70<br>攻擊力:50</td>
+        </tr>
+        <tr>
+            <td id="turn">
+                現在是玩家0的回合，請選擇動作 =><br>(撤退後可以攻擊，攻擊後回合即結束)
+            </td>
+            <td>
+                <button onclick="attack()">攻擊</button>
+            </td><td>
+                <button onclick="retreat_button()">撤退</button>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        //寶可夢資料
+        let player1_bench1 = document.getElementById("player1_bench1");
+        let player1_bench2 = document.getElementById("player1_bench2");
+        let player1_battle = document.getElementById("player1_battle");
+
+        let player2_bench1 = document.getElementById("player2_bench1");
+        let player2_bench2 = document.getElementById("player2_bench2");
+        let player2_battle = document.getElementById("player2_battle");
+
+        let player1_bench1_img = document.getElementById("player1_bench1_img");
+        let player1_bench2_img = document.getElementById("player1_bench2_img");
+        let player1_battle_img = document.getElementById("player1_battle_img");
+
+        let player2_bench1_img = document.getElementById("player2_bench1_img");
+        let player2_bench2_img = document.getElementById("player2_bench2_img");
+        let player2_battle_img = document.getElementById("player2_battle_img");
+
+        //遊戲開始時決定誰先攻
+        let whose_turn = Math.floor(Math.random() * 2) + 1;
+        alert("隨機選擇後的結果是:玩家" + whose_turn + "先攻");
+        const turn = document.getElementById("turn");
+        turn.innerHTML = "現在是玩家" +  whose_turn + "的回合，請選擇動作 =><br>(撤退後可以攻擊，攻擊後回合即結束)"
+
+
+        //當撤退模式=true時，才能執行撤退
+        let retreatmode = false;
+
+        //按下撤退按鈕，撤退模式變成true
+        function retreat_button(){
+            retreatmode = true;
+            alert("請點擊要替換的備戰寶可夢的圖片");
+        };
+
+        //監聽器，監聽備戰寶可夢有沒有被按下，當撤退模式是false時，按下也不會發生任何事
+        player1_bench1_img.addEventListener("click", () => retreat(1));
+        player1_bench2_img.addEventListener("click", () => retreat(2));
+        player2_bench1_img.addEventListener("click", () => retreat(3));
+        player2_bench2_img.addEventListener("click", () => retreat(4));
+
+        //撤退功能，當撤退模式是true時才能執行，執行完後將撤退模式變回false
+        function retreat(b){
+            if(!retreatmode) return;
+
+            //根據 玩家點擊的圖片 和 現在是誰的回合 來判斷要交換哪兩隻寶可夢
+            if(whose_turn == 1){
+                if(b == 1){
+                    if(player1_bench1.dataset.hp == 0){
+                        alert("此寶可夢已氣絕，請選擇其他寶可夢")
+                        return;
+                    }
+                    let swap = player1_battle.dataset.hp;
+                    player1_battle.dataset.hp = player1_bench1.dataset.hp;
+                    player1_bench1.dataset.hp = swap;
+
+                    swap = player1_battle.dataset.atk;
+                    player1_battle.dataset.atk = player1_bench1.dataset.atk;
+                    player1_bench1.dataset.atk = swap;
+
+                    swap = player1_battle_img.src;
+                    player1_battle_img.src = player1_bench1_img.src;
+                    player1_bench1_img.src = swap;
+                } else if(b == 2){
+                    if(player1_bench2.dataset.hp == 0){
+                        alert("此寶可夢已氣絕，請選擇其他寶可夢")
+                        return;
+                    }
+                    let swap = player1_battle.dataset.hp;
+                    player1_battle.dataset.hp = player1_bench2.dataset.hp;
+                    player1_bench2.dataset.hp = swap;
+
+                    swap = player1_battle.dataset.atk;
+                    player1_battle.dataset.atk = player1_bench2.dataset.atk;
+                    player1_bench2.dataset.atk = swap;
+
+                    swap = player1_battle_img.src;
+                    player1_battle_img.src = player1_bench2_img.src;
+                    player1_bench2_img.src = swap;
+                } else{
+                    //點擊對手寶可夢的圖片無法成功替換
+                    alert("請選擇自己的備戰寶可夢!");
+                    return;
+                }
+            } else{
+                if(b == 3){
+                    if(player2_bench1.dataset.hp == 0){
+                        alert("此寶可夢已氣絕，請選擇其他寶可夢")
+                        return;
+                    }
+                    let swap = player2_battle.dataset.hp;
+                    player2_battle.dataset.hp = player2_bench1.dataset.hp;
+                    player2_bench1.dataset.hp = swap;
+
+                    swap = player2_battle.dataset.atk;
+                    player2_battle.dataset.atk = player2_bench1.dataset.atk;
+                    player2_bench1.dataset.atk = swap;
+
+                    swap = player2_battle_img.src;
+                    player2_battle_img.src = player2_bench1_img.src;
+                    player2_bench1_img.src = swap;
+                } else if(b == 4){
+                    if(player2_bench2.dataset.hp == 0){
+                        alert("此寶可夢已氣絕，請選擇其他寶可夢")
+                        return;
+                    }
+                    let swap = player2_battle.dataset.hp;
+                    player2_battle.dataset.hp = player2_bench2.dataset.hp;
+                    player2_bench2.dataset.hp = swap;
+
+                    swap = player2_battle.dataset.atk;
+                    player2_battle.dataset.atk = player2_bench2.dataset.atk;
+                    player2_bench2.dataset.atk = swap;
+
+                    swap = player2_battle_img.src;
+                    player2_battle_img.src = player2_bench2_img.src;
+                    player2_bench2_img.src = swap;
+                } else{
+                    alert("請選擇自己的備戰寶可夢!");
+                    return;
+                }
+            }
+
+            //交換完寶可夢數據後更新畫面
+            refresh_pokemon_data();
+
+            retreatmode = false;
+        };
+
+        //按下攻擊按鈕啟動攻擊功能，當撤退模式=true時，按下攻擊按鈕不會有反應
+        function attack(){
+            if(retreatmode){
+                alert("現在在撤退模式，請點擊要替換的備戰寶可夢")
+                return;
+            }
+            
+            //根據現在是誰的回合，來判斷現在是誰打誰
+            if(whose_turn == 1){
+                player2_battle.dataset.hp -= player1_battle.dataset.atk;
+            } else{
+                player1_battle.dataset.hp -= player2_battle.dataset.atk;
+            }
+
+            //檢查有沒有寶可夢生命值歸零
+            if(player1_battle.dataset.hp <= 0 || player2_battle.dataset.hp <= 0){
+                die();
+            }
+
+            //更新寶可夢數據
+            refresh_pokemon_data();
+
+            //攻擊完後換成對手的回合
+            whose_turn = 3 - whose_turn;
+            turn.innerHTML = "現在是玩家" +  whose_turn + "的回合，請選擇動作 =><br>(撤退後可以攻擊，攻擊後回合即結束)"
+        };
+        
+        //寶可夢氣絕
+        function die(){
+            if(whose_turn == 1){
+                if(player2_bench1.dataset.hp == 0){
+                    if(player2_bench2.dataset.hp == 0){
+                        //如果兩隻備戰寶可夢也都已氣絕，對手勝利
+                        player2_battle.dataset.hp = 0
+                        player2_battle_img.src = "pokemon/pokeball.png";
+                        refresh_pokemon_data();
+                        win();
+                    } else{
+                        player2_battle.dataset.hp = player2_bench2.dataset.hp;
+                        player2_battle.dataset.atk = player2_bench2.dataset.atk;
+                        player2_battle_img.src = player2_bench2_img.src;
+
+                        player2_bench2.dataset.hp = 0;
+                        player2_bench2_img.src = "pokemon/pokeball.png";
+                    }
+                } else{
+                    player2_battle.dataset.hp = player2_bench1.dataset.hp;
+                    player2_battle.dataset.atk = player2_bench1.dataset.atk;
+                    player2_battle_img.src = player2_bench1_img.src;
+
+                    player2_bench1.dataset.hp = 0;
+                    player2_bench1_img.src = "pokemon/pokeball.png";
+                }
+            } else{
+                if(player1_bench1.dataset.hp == 0){
+                    if(player1_bench2.dataset.hp == 0){
+                        player1_battle.dataset.hp = 0
+                        player1_battle_img.src = "pokemon/pokeball.png";
+                        refresh_pokemon_data();
+                        win();
+                    } else{
+                        player1_battle.dataset.hp = player1_bench2.dataset.hp;
+                        player1_battle.dataset.atk = player1_bench2.dataset.atk;
+                        player1_battle_img.src = player1_bench2_img.src;
+
+                        player1_bench2.dataset.hp = 0;
+                        player1_bench2_img.src = "pokemon/pokeball.png";
+                    }
+                } else{
+                    player1_battle.dataset.hp = player1_bench1.dataset.hp;
+                    player1_battle.dataset.atk = player1_bench1.dataset.atk;
+                    player1_battle_img.src = player1_bench1_img.src;
+
+                    player1_bench1.dataset.hp = 0;
+                    player1_bench1_img.src = "pokemon/pokeball.png";
+                }
+            }
+        };
+
+        //當有一方打倒對手的全部寶可夢即勝利
+        function win(){
+            if(whose_turn == 1){
+                alert("恭喜玩家一獲勝!");
+            } else{
+                alert("恭喜玩家二獲勝!");
+            }
+        }
+
+        //更新寶可夢的生命值與攻擊力
+        function refresh_pokemon_data(){
+            const pokemon = [player1_battle, player1_bench1, player1_bench2, player2_battle, player2_bench1, player2_bench2];
+            pokemon.forEach(element => {
+                if(element.dataset.hp == 0){
+                    element.innerHTML = "生命值:0<br>此寶可夢已氣絕...";
+                } else{
+                    element.innerHTML = "生命值:" + element.dataset.hp + "<br>攻擊力:" + element.dataset.atk;
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
