@@ -116,6 +116,7 @@
             return { hp, atk, imageUrl };
         }
 
+        //從local storage獲取兩位玩家抓的寶可夢名稱
         async function loadPokemon(player, benchSlot, imgSlot, pokemonKey) {
             try {
                 const playerKey = `player${player}`;
@@ -134,6 +135,7 @@
                 benchSlot.dataset.hp = data.hp;
                 benchSlot.dataset.atk = data.atk;
                 imgSlot.src = data.imageUrl;
+                refresh_pokemon_data();
             } catch (error) {
                 // 如果發生錯誤，設置為死亡狀態
                 benchSlot.dataset.hp = 0;
