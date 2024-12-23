@@ -162,6 +162,7 @@
         let gameScore
 
         document.addEventListener("DOMContentLoaded", () => {
+            localStorage.clear();
             bulletin = document.getElementById('bulletin');
             modal = document.getElementById('intro-modal');
             gameContainer = document.getElementById('game-container');
@@ -182,6 +183,7 @@
         
         function starting(){
             window.alert(`現在是玩家${player}的回合，按確認後開始`);
+            pokemonCnt = 0;
             if(gameContainer.classList.contains('hidden'))gameContainer.classList.remove('hidden'); 
 
             if(gameInterface)gameInterface.classList.remove('hidden');
@@ -221,12 +223,21 @@
             bulletin.innerText = '你的寶可夢';
             gameInterface.classList.add('hidden');
             gameScore.classList.add('exhibit');
+            
+            const Count = Object.keys(playerData).length;
+            for(let i = Count + 1; i <= 3; i++){
+                playerData['pokemon' + i] = null;
+            }
+            
+            const storageKey = 'player' + `${player}`;
+            localStorage.setItem(storageKey, JSON.stringify(playerData));
+            playerData = {};
 
             setTimeout(() => {
                 if(player == 2){
                     setTimeout(() =>{
                         window.alert('遊戲結束，按確認進入下一段')
-                        window.location.href = "index.html";
+                        window.location.href = "../two_player_battle.html";
                     }, 2000);
                 }
                 else{

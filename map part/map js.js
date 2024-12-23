@@ -1,5 +1,5 @@
 let  nowMarkers;
-let  pokemonCnt = 0;
+let  pokemonCnt;
 let  pokemonImg;
 const markers = document.querySelectorAll('.marker');
 const tooltip = document.getElementById('photo-tooltip');
@@ -23,7 +23,7 @@ const buttons = document.querySelectorAll('.button-group button');
             
             // 調整位置，確保不超出地圖邊界
             let top = markerRect.top - containerRect.top + marker.offsetHeight / 2 + 10;
-            let left = markerRect.left - containerRect.left + marker.offsetWidth / 2;
+            let left = markerRect.left - containerRect.left + marker.offsetWidth / 2 + 30;
             let ptop = containerRect.top;
             let pleft = containerRect.left;
 
@@ -89,8 +89,6 @@ function press(e){
     }
     else if(e.target.value == 'no')clear();
     else return;
-
-    console.log(playerData);
 }
 
 function clear(){
