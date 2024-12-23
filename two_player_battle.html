@@ -104,26 +104,32 @@
         const player2_bench2_img = document.getElementById("player2_bench2_img");
         const player2_battle_img = document.getElementById("player2_battle_img");
 
-        //從網路上獲取寶可夢數據
+        // 從網路上獲取寶可夢數據
         async function getPokemonData(pokemonName) {
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-
             const data = await response.json();
 
             const hp = data.stats.find(stat => stat.stat.name === "hp").base_stat * 2;
             const atk = data.stats.find(stat => stat.stat.name === 'attack').base_stat;
             const imageUrl = data.sprites.front_default;
-            
+
             return { hp, atk, imageUrl };
         }
 
         async function loadPokemon(player, benchSlot, imgSlot, pokemonKey) {
             try {
-                const pokemonName = localStorage.getItem(pokemonKey);
-                if (!pokemonName) {
+                const playerKey = `player${player}`;
+                const playerData = JSON.parse(localStorage.getItem(playerKey));
+
+                if (!playerData) {
+                    throw new Error(`No data found for ${playerKey}`);
+                }
+
+                const pokemonName = playerData[pokemonKey];
+                if (pokemonName === null) {
                     throw new Error(`No Pokémon found for ${pokemonKey}`);
                 }
-                
+
                 const data = await getPokemonData(pokemonName);
                 benchSlot.dataset.hp = data.hp;
                 benchSlot.dataset.atk = data.atk;
@@ -136,14 +142,14 @@
                 benchSlot.innerHTML = "生命值:0<br>此寶可夢已氣絕...";
             }
         }
-        
+
         // 載入每個玩家的寶可夢
-        loadPokemon('player1', player1_bench1, player1_bench1_img, 'player1_pokemon1');
-        loadPokemon('player1', player1_bench2, player1_bench2_img, 'player1_pokemon2');
-        loadPokemon('player1', player1_battle, player1_battle_img, 'player1_pokemon3');
-        loadPokemon('player2', player2_bench1, player2_bench1_img, 'player2_pokemon1');
-        loadPokemon('player2', player2_bench2, player2_bench2_img, 'player2_pokemon2');
-        loadPokemon('player2', player2_battle, player2_battle_img, 'player2_pokemon3');
+        loadPokemon(1, player1_bench1, player1_bench1_img, 'pokemon1');
+        loadPokemon(1, player1_bench2, player1_bench2_img, 'pokemon2');
+        loadPokemon(1, player1_battle, player1_battle_img, 'pokemon3');
+        loadPokemon(2, player2_bench1, player2_bench1_img, 'pokemon1');
+        loadPokemon(2, player2_bench2, player2_bench2_img, 'pokemon2');
+        loadPokemon(2, player2_battle, player2_battle_img, 'pokemon3');
         
         //音效
         const retreatSound = document.getElementById("retreatSound");
