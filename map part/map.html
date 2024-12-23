@@ -196,6 +196,8 @@
             imgs.forEach((img) =>{
                 img.src = "source/black.jpg";
             })
+
+            clear();
             countdown();
         }
         //countdown
@@ -209,7 +211,7 @@
                 countdownValue--;
                 document.getElementById("countdown").textContent = countdownValue;
 
-                if (countdownValue <= 0) {
+                if (countdownValue <= 0 || pokemonCnt == 3) {
                     clearInterval(timer);
                     ending();
                 }
