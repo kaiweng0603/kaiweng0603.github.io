@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Pokemon in NTOU</title>
+    <style>
+        body {
+            background-image: url("background/ntou.png");
+            background-size: cover;
+        }
+        h1 {
+            color:whitesmoke;
+            text-decoration: underline;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 100px;
+            display: flex;
+            justify-content: center;
+            margin-top: 150px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 1px;
+        }
+        button {
+            font-size: 30px;
+            font-weight: bold;
+            color: rgb(7, 113, 161);
+            background-color: rgb(176, 225, 245);
+            border-radius: 5px;
+            cursor: pointer;
+            width: 500px;
+            height: 60px;
+        }
+        .logo1 {
+            position: absolute;
+            bottom: 150px;
+            right: 80px;
+            width: 400px;
+        }
+        .logo2 {
+            position: absolute;
+            top: 50px;
+            left: 100px;
+            width: 200px;
+        }
+        .logo3 {
+            position: absolute;
+            bottom: 50px;
+            left: 100px;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Find Pokemon in NTOU</h1>
+    <div class="container">
+        <button onclick="window.location.href='two_player_battle.html';">進入遊戲</button>
+    </div>
+    <div class="container">
+        <button onclick="window.location.href='web_intro.html';">網站介紹</button>
+    </div>
+    <div class="container">
+        <button onclick="window.location.href='author_intro.html';">作者介紹</button>
+    </div>
+    <img src="pokemon/pikachu.png" class="logo1">
+    <img src="pokemon/pokeball.png" class="logo2">
+    <img src="pokemon/lapras.png" class="logo3">
+</body>
+</html>

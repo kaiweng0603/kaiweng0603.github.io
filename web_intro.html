@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Intro</title>
+    <style>
+        body {
+            background-image: url("background/web_intro_background.jpg");
+            background-size: cover;
+        }
+        h1 {
+            color:aliceblue;
+            text-shadow: 2px 2px 4px black;
+            font-size: 80px;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        h3, h4 {
+            display: flex;
+            justify-content: center;
+        }
+        .word_container {   
+            width: 50%;
+            margin: 0 auto;
+            border-radius: 5px;
+            border: 1px solid skyblue;    
+            background-color: rgb(159, 255, 247);
+            font-size: large;
+            font-weight: 500;
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+        }
+        button {
+            font-size: 30px;
+            font-weight: bold;
+            color: rgb(7, 113, 161);
+            background-color: rgb(176, 225, 245);
+            border-radius: 5px;
+            cursor: pointer;
+            width: 200px;
+            height: 60px;
+        }
+        .logo1 {
+            position: absolute;
+            bottom: 150px;
+            right: 80px;
+            width: 400px;
+        }
+        .logo2 {
+            position: absolute;
+            top: 50px;
+            left: 100px;
+            width: 200px;
+        }
+        .logo3 {
+            position: absolute;
+            bottom: 50px;
+            left: 200px;
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>網站介紹</h1>
+    <div class="word_container">
+        <h3>GeoPokemon——在真實世界裡尋找隱藏的寶可夢，了解他們，並與它們和其他玩家對決</h3>
+        <h4>讓寶可夢與海大周遭的在地特色結合訓練細節辨認和邏輯推演的遊戲機制</h4>
+        <br>
+        <p>這個網站的遊戲需要兩位玩家來進行，遊戲分兩階段:</p>
+        <p>第一階段:兩位玩家先輪流在地圖上尋找寶可夢，組建自己的隊伍。</p>
+        <p>第二階段:使用剛剛找到的寶可夢進行回合制對戰，先將對手所有寶可夢打倒的人即獲勝!</p>
+    </div>
+    <div class="container">
+        <button onclick="window.location.href='entrance.html';">返回首頁</button>
+    </div>
+    <img src="pokemon/marowak.png" class="logo1">
+    <img src="pokemon/pokeball.png" class="logo2">
+    <img src="pokemon/chansey.png" class="logo3">
+</body>
+</html>

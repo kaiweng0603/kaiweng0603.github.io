@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win</title>
+    <style>
+        body {
+            background-image: url("background/win.jpg");
+            background-size: cover;
+        }
+        h1 {
+            color:whitesmoke;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 100px;
+            display: flex;
+            justify-content: center;
+            margin-top: 150px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 1px;
+        }
+        button {
+            font-size: 30px;
+            font-weight: bold;
+            color: rgb(7, 113, 161);
+            background-color: rgb(176, 225, 245);
+            border-radius: 5px;
+            cursor: pointer;
+            width: 500px;
+            height: 60px;
+        }
+        .logo1 {
+            position: absolute;
+            bottom: 150px;
+            right: 80px;
+            width: 500px;
+        }
+        .logo2 {
+            position: absolute;
+            top: 50px;
+            left: 100px;
+            width: 200px;
+        }
+        .logo3 {
+            position: absolute;
+            bottom: 50px;
+            left: 100px;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="winner_message"></h1>
+    <div class="container">
+        <button onclick="window.location.href='entrance.html';">返回首頁</button>
+    </div>
+    <img src="pokemon/tapulele.png" class="logo1">
+    <img src="pokemon/pokeball.png" class="logo2">
+    <img src="pokemon/glaceon.png" class="logo3">
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const winner = urlParams.get('winner');
+
+        if (winner) {
+            document.getElementById('winner_message').innerText = `${winner} 獲勝！`;
+        }
+    </script>
+</body>
+</html>
