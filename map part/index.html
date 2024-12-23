@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>頁面跳轉轉場效果</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            height: 100vh;
+        }
+
+        .content {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        /* 轉場動畫 */
+        .fade {
+            animation: fadeOut 1s forwards;
+        }
+        .motion{
+            animation: motion 2s forwards;
+        }
+        /* 定義 fadeOut 動畫 */
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        @keyframes motion{
+            0% {
+                opacity: 0;
+            }
+            50%{
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>頁面轉場動畫</h1>
+        <button onclick="goToNextPage()">跳轉到下一頁</button>
+    </div>
+
+    <script>
+        function goToNextPage() {
+            // 添加轉場動畫
+            document.querySelector('body div h1').classList.add('fade');
+            document.querySelector('body div button').classList.add('fade');
+            // 在 fade 動畫結束後，添加新的元素（玩家提示）
+            setTimeout(() => {
+                let annoucement = document.createElement("h1");
+                annoucement.innerText = "現在是玩家1的回合";
+                annoucement.classList.add('motion'); // 添加 motion 動畫
+                document.body.appendChild(annoucement);
+            }, 1000); // 延遲 1 秒，讓 fadeOut 動畫完成後才顯示提示
+
+            // 動畫結束後，3 秒跳轉到下一頁
+           setTimeout(() => {
+                window.location.href = "map.html"; // 跳轉到下一頁
+            }, 3000); // 延遲 4 秒（total時間加總）
+        }
+    </script>
+</body>
+</html>

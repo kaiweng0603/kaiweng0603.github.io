@@ -1,0 +1,65 @@
+.pokeball-container {
+    position: relative;
+    width: 700px;  /* 寶貝球的大小 */
+    height: 600px; /* 包含按鈕的總高度 */
+    overflow: hidden; /* 隱藏超出容器範圍的部分 */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pokeball {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-image: url('./source/pokeball.png'); /* 使用你的寶貝球圖片 */
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.3s, transform 0.5s;
+}
+
+.button-group {
+    position: absolute;
+    top: 50%;  /* 將按鈕組垂直居中 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 精確對齊 */
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1; /* 確保按鈕在寶貝球上面 */
+    transition: opacity 0.3s;
+}
+
+.pokeball-container:hover .pokeball {
+    opacity: 0; /* 寶貝球隱藏 */
+    transform: rotate(360deg); /* 寶貝球旋轉 */
+}
+
+.pokeball-container:hover .button-group {
+    opacity: 1; /* 按鈕顯示 */
+    pointer-events: auto;
+}
+
+.button-group button {
+    font-size: 1.5em;
+    margin: 5px 0;
+    padding: 10px 20px;
+    width: 300px;
+    height: 150px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-group button:hover {
+    background-color: #0056b3;
+}

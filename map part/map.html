@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pokeball style.css">
+    <link rel="stylesheet" href="map css.css">
+    <title>pokemon map</title>
+    <style>
+        #game-container {
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #console{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .game-interface{
+            display: flex;
+        }
+
+        #countdown {
+            font-size: 80px;
+            font-weight: bold;
+        }
+        /* 隱藏元素的樣式 */
+        .hidden {
+            display: none;
+        }
+
+        /* 彈窗背景 */
+        .modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        /* 彈窗內容 */
+        .modal-content {
+            background: #fff;
+            font-size: 1.5em;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            max-height: 700px;
+            text-align: center;
+        }
+
+        /* 彈窗顯示時的樣式 */
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .score{
+            display: flex;
+            flex-direction: row;
+            position: fixed;
+            bottom: 0%;
+            left: 0%;
+            transition: all 1.5s;
+        }
+        .score.exhibit{
+            flex-direction: column;
+            align-items: center;
+            bottom: 50%; /* 移動到畫面中間 */
+            left: 50%;
+            transform: translateX(-50%); /* 恢復正常大小 */
+        }
+    </style>
+</head>
+<body>
+    <div id="intro-modal" class="modal" onclick="closeIntro()">
+        <div class="modal-content">
+            <h2>遊戲說明</h2>
+            <p>
+                歡迎來到地圖遊戲！每個玩家有30秒時間，請在限時時間內找到幫助你對戰的寶可夢
+            </p>
+            <p>準備好後，任意點擊螢幕進入遊戲！</p>
+        </div>
+    </div>
+
+    <div id="game-container" class="hidden">
+        <div id="game-interface" class="game-interface">
+            <div id="map">
+                <div class="map-container">
+                    <img src="source\地圖.jpg" class="map-image">
+                    <div class="marker" style="top: 5%; left: 28%;" data-name="社寮橋" data-photo="source\社寮橋.jpg"></div>
+                    <div class="marker" style="top: 63%; left: 55%;" data-name="海大操場" data-photo="source\海大操場.jpg"></div>
+                    <div class="marker" style="top: 95%; left: 45%;" data-name="槓子寮砲座" data-photo="source\槓子寮砲座.jpg"></div>
+                    <div class="marker" style="top: 95%; left: 90%;" data-name="八斗子" data-photo="source\八斗子.jpg"></div>
+                    <div class="marker" style="top: 40%; left: 5%;" data-name="彩色屋" data-photo="source\彩色屋.jpg"></div>
+                    <div class="marker" style="top: 60%; left: 65%;" data-name="電資大樓" data-photo="source\電資大樓.jpg"></div>
+                </div>
+                <div class="photo-tooltip" id="photo-tooltip">
+                    <img src="" alt="Scenery Photo" id="tooltip-image">
+                    <canvas id="canvas" class="canvab"></canvas>
+                </div>
+            </div>
+            <div id="console">
+                <div id="countdown"></div>
+                <div class="pokeball-container">
+                    <div class="pokeball"></div>
+                    <div class="button-group">
+                        <button onclick="press(event)">按鈕 1</button>
+                        <button onclick="press(event)">按鈕 2</button>
+                        <button onclick="press(event)">按鈕 3</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="score-container" class="score">
+            <p id="bulletin" style="font-size: 5em;">玩家</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th id="scName1">unknown</th>
+                        <th id="scName2">unknown</th>
+                        <th id="scName3">unknown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img id="scImg1"></td>
+                        <td><img id="scImg2"></td>
+                        <td><img id="scImg3"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>pokemon1</th>
+                        <th>pokemon2</th>
+                        <th>pokemon3</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script src="map js.js"></script>
+    <script>
+        let playerData = new Object();
+        let player;
+        let bulletin = document.getElementById('bulletin');
+        let modal;
+        let gameContainer;
+        let gameInterface;
+        let gameScore
+
+        document.addEventListener("DOMContentLoaded", () => {
+            bulletin = document.getElementById('bulletin');
+            modal = document.getElementById('intro-modal');
+            gameContainer = document.getElementById('game-container');
+
+            // 顯示彈窗
+            modal.classList.add('show');
+
+            // 關閉彈窗並顯示遊戲內容
+            window.closeIntro = () => {
+                modal.classList.remove('show');  // 淡出效果
+                setTimeout(() => {
+                    player = 1;
+                    modal.style.display = 'none'; 
+                    starting();
+                }, 500);  // 配合 CSS 的 transition 時間
+            };
+        });
+        
+        function starting(){
+            window.alert(`現在是玩家${player}的回合，按確認後開始`);
+            if(gameContainer.classList.contains('hidden'))gameContainer.classList.remove('hidden'); 
+
+            if(gameInterface)gameInterface.classList.remove('hidden');
+            if(gameScore){
+                gameScore.classList.remove('exhibit')
+            } 
+            bulletin.innerText = `玩家${player}`;
+
+            let imgs = document.querySelectorAll('td img');
+            imgs.forEach((img) =>{
+                img.src = "source/black.jpg";
+            })
+            countdown();
+        }
+        //countdown
+        function countdown(){
+            let timer;
+            let countdownValue;
+            countdownValue = 30; // 重置倒數值
+            document.getElementById("countdown").textContent = countdownValue;
+
+            timer = setInterval(() => {
+                countdownValue--;
+                document.getElementById("countdown").textContent = countdownValue;
+
+                if (countdownValue <= 0) {
+                    clearInterval(timer);
+                    ending();
+                }
+            }, 1000); // 每秒執行一次
+        }
+
+        function ending(){
+            gameInterface = document.getElementById("game-interface");
+            gameScore = document.getElementById("score-container");
+
+            bulletin.innerText = '你的寶可夢';
+            gameInterface.classList.add('hidden');
+            gameScore.classList.add('exhibit');
+
+            setTimeout(() => {
+                if(player == 2){
+                    setTimeout(() =>{
+                        window.alert('遊戲結束，按確認進入下一段')
+                        window.location.href = "index.html";
+                    }, 2000);
+                }
+                else{
+                    player++;
+                    setTimeout(() =>{
+                        gameContainer.classList.add('hidden');
+                        requestAnimationFrame(function() {
+                            requestAnimationFrame(function() {
+                                starting();
+                            });
+                        });
+                    }, 2000);
+                }
+            }, 1000)
+        }
+    </script>
+</body>
+</html>

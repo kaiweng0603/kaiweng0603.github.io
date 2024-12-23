@@ -1,0 +1,95 @@
+.map-container {
+    position: relative;
+    width: 1400px;  /* 地圖寬度 */
+    height: 700px; /* 地圖高度 */
+    overflow: hidden;
+}
+
+.map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保證圖片完全填充容器 */
+}
+
+.marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%; /* 圓形標記 */
+    cursor: pointer;
+    transform: translate(-50%, -50%); /* 中心對齊 */
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.marker:hover {
+    transform: scale(1.5); /* 放大效果 */
+    background-color: white;
+}
+
+.marker::after {
+    content: attr(data-name); /* 使用 data-name 顯示地區名稱 */
+    position: absolute;
+    top: -30px; /* 提到標記上方 */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 14px;
+    display: none; /* 初始隱藏 */
+}
+
+.marker:hover::after {
+    display: block; /* 懸停時顯示地區名稱 */
+}
+
+.active{
+    background-color: white;
+    cursor: pointer;
+    z-index: 2;
+    transform: scale(1.5);
+}
+
+/* 圖片視窗 */
+.photo-tooltip {
+    position: absolute;
+    display: none; /* 默認隱藏 */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    max-width: 500px; /* 確保視窗不會超過地圖大小 */
+    z-index: 10;
+    overflow: hidden;
+}
+
+.photo-tooltip img {
+    width: 500px;
+    height: 300px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.canvab{
+    position: absolute;
+    /*border: 1px solid #000;*/ 
+    display: none;
+    z-index: 2;
+}
+
+td {
+    text-align: center; /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */
+    padding: 10px; /* 增加一些內邊距讓單元格內部更美觀 */
+}
+
+td img {
+    width: 100%; /* 根據需要設置圖片的寬度，可以是百分比或固定像素 */
+    height: auto; /* 自動調整高度以保持比例 */
+    border-radius: 8px; /* 圓角效果 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 給圖片加上一些陰影，讓其看起來更立體 */
+}
