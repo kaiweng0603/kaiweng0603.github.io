@@ -138,18 +138,18 @@
                 // 如果發生錯誤，設置為死亡狀態
                 benchSlot.dataset.hp = 0;
                 benchSlot.dataset.atk = 0;
-                imgSlot.src = "pokemon/pokeball.png";
+                imgSlot.src = "pokeball.png";
                 benchSlot.innerHTML = "生命值:0<br>此寶可夢已氣絕...";
             }
         }
 
         // 載入每個玩家的寶可夢
-        loadPokemon(1, player1_bench1, player1_bench1_img, 'pokemon1');
-        loadPokemon(1, player1_bench2, player1_bench2_img, 'pokemon2');
-        loadPokemon(1, player1_battle, player1_battle_img, 'pokemon3');
-        loadPokemon(2, player2_bench1, player2_bench1_img, 'pokemon1');
-        loadPokemon(2, player2_bench2, player2_bench2_img, 'pokemon2');
-        loadPokemon(2, player2_battle, player2_battle_img, 'pokemon3');
+        loadPokemon(1, player1_battle, player1_battle_img, 'pokemon1');
+        loadPokemon(1, player1_bench1, player1_bench1_img, 'pokemon2');
+        loadPokemon(1, player1_bench2, player1_bench2_img, 'pokemon3');
+        loadPokemon(2, player2_battle, player2_battle_img, 'pokemon1');
+        loadPokemon(2, player2_bench1, player2_bench1_img, 'pokemon2');
+        loadPokemon(2, player2_bench2, player2_bench2_img, 'pokemon3');
         
         //音效
         const retreatSound = document.getElementById("retreatSound");
