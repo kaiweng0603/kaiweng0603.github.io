@@ -117,48 +117,34 @@
             return { hp, atk, imageUrl };
         }
 
-        getPokemonData(localStorage.getItem('player1_pokemon1')).then(data => {
-            player1_bench1.dataset.hp = data.hp;
-            player1_bench1.dataset.atk = data.atk;
-            player1_bench1_img.src = data.imageUrl;
-            refresh_pokemon_data();
-        });
-
-        getPokemonData(localStorage.getItem('player1_pokemon2')).then(data => {
-            player1_bench2.dataset.hp = data.hp;
-            player1_bench2.dataset.atk = data.atk;
-            player1_bench2_img.src = data.imageUrl;
-            refresh_pokemon_data();
-        });
-
-        getPokemonData(localStorage.getItem('player1_pokemon3')).then(data => {
-            player1_battle.dataset.hp = data.hp;
-            player1_battle.dataset.atk = data.atk;
-            player1_battle_img.src = data.imageUrl;
-            refresh_pokemon_data();
-        });
-
-        getPokemonData(localStorage.getItem('player2_pokemon1')).then(data => {
-            player2_bench1.dataset.hp = data.hp;
-            player2_bench1.dataset.atk = data.atk;
-            player2_bench1_img.src = data.imageUrl;
-            refresh_pokemon_data();
-        });
-
-        getPokemonData(localStorage.getItem('player2_pokemon2')).then(data => {
-            player2_bench2.dataset.hp = data.hp;
-            player2_bench2.dataset.atk = data.atk;
-            player2_bench2_img.src = data.imageUrl;
-            refresh_pokemon_data();
-        });
-
-        getPokemonData(localStorage.getItem('player2_pokemon3')).then(data => {
-            player2_battle.dataset.hp = data.hp;
-            player2_battle.dataset.atk = data.atk;
-            player2_battle_img.src = data.imageUrl;
-            refresh_pokemon_data();
-        });
-
+        async function loadPokemon(player, benchSlot, imgSlot, pokemonKey) {
+            try {
+                const pokemonName = localStorage.getItem(pokemonKey);
+                if (!pokemonName) {
+                    throw new Error(`No Pokémon found for ${pokemonKey}`);
+                }
+                
+                const data = await getPokemonData(pokemonName);
+                benchSlot.dataset.hp = data.hp;
+                benchSlot.dataset.atk = data.atk;
+                imgSlot.src = data.imageUrl;
+            } catch (error) {
+                // 如果發生錯誤，設置為死亡狀態
+                benchSlot.dataset.hp = 0;
+                benchSlot.dataset.atk = 0;
+                imgSlot.src = "pokemon/pokeball.png";
+                benchSlot.innerHTML = "生命值:0<br>此寶可夢已氣絕...";
+            }
+        }
+        
+        // 載入每個玩家的寶可夢
+        loadPokemon('player1', player1_bench1, player1_bench1_img, 'player1_pokemon1');
+        loadPokemon('player1', player1_bench2, player1_bench2_img, 'player1_pokemon2');
+        loadPokemon('player1', player1_battle, player1_battle_img, 'player1_pokemon3');
+        loadPokemon('player2', player2_bench1, player2_bench1_img, 'player2_pokemon1');
+        loadPokemon('player2', player2_bench2, player2_bench2_img, 'player2_pokemon2');
+        loadPokemon('player2', player2_battle, player2_battle_img, 'player2_pokemon3');
+        
         //音效
         const retreatSound = document.getElementById("retreatSound");
         const retreatSound2 = document.getElementById("retreatSound2");
